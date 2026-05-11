@@ -13,7 +13,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 {
-    MessageBox(nullptr, L"hello", L"Test", MB_OK);
+    // MessageBox(nullptr, L"hello", L"Test", MB_OK);
 
     WNDCLASSEX wc    = {};
     wc.cbSize        = sizeof(wc);
@@ -32,9 +32,23 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         100, 100, 600, 400,
         nullptr, nullptr, hInstance, nullptr
     );
-
+    SetWindowDisplayAffinity(hwnd, 0x00000011); // WDA_EXCLUDEFROMCAPTURE
     ShowWindow(hwnd, nCmdShow);
     UpdateWindow(hwnd);
+
+    HWND hwnd2 = CreateWindowEx(
+        0,
+        L"TestWindow",
+        L"XXXX",
+        WS_OVERLAPPEDWINDOW,
+        100, 100, 600, 1200,
+        nullptr, nullptr, hInstance, nullptr
+    );
+    SetWindowDisplayAffinity(hwnd2, 0x00000011);
+
+
+    ShowWindow(hwnd2, nCmdShow);
+    UpdateWindow(hwnd2);
 
     MSG msg = {};
     while (GetMessage(&msg, nullptr, 0, 0))
