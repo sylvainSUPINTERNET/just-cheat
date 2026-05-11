@@ -1,10 +1,15 @@
 #include <windows.h>
 
 
+enum class ID : int
+{
+    InputChat  = 101,
+};
+
 HWND hInput = nullptr; 
 HWND mWindow = nullptr;
 
-// TODO Add ID check on case for HWND 
+// general msg loop
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
@@ -19,7 +24,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 10, 10,                 
                 400, 30,                
                 hwnd,                   
-                (HMENU)101,
+                (HMENU)ID::InputChat,
                 nullptr, nullptr
             );
         return 0;
@@ -29,11 +34,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             DestroyWindow(hwnd);
         }
         return 0;
-        
+    
+    case WM_COMMAND:
+        if (LOWORD(wParam) == (int)ID::InputChat )
+        {
+            // ... keyboard inputs
+        }
+        return 0;
+
     case WM_DESTROY:
         PostQuitMessage(0); // leave msg loop
         return 0;
     }
+
     return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
