@@ -89,7 +89,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     
         PropVariantClear(&name); // win resources
         pProps->Release();
-        d->Release();
 
         MessageBox(nullptr, id, L"Device ID", MB_OK);
 
