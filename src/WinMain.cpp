@@ -6,6 +6,8 @@
 #include <mmdeviceapi.h>
 #include <string>
 
+#include <functiondiscoverykeys_devpkey.h>
+
 enum class ID : int
 {
     InputChat  = 101,
@@ -77,6 +79,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         LPWSTR id = nullptr;
         d->GetId(&id);
 
+        IPropertyStore* pProps = nullptr;
+        d->OpenPropertyStore(STGM_READ, &pProps);
+        PROPVARIANT name;
+        PropVariantInit(&name);
+        pProps->GetValue(PKEY_Device_FriendlyName, &name);
+        MessageBox(nullptr, name.pwszVal, L"Device", MB_OK);
+
+    
+        PropVariantClear(&name); // win resources
+        pProps->Release();
+        d->Release();
+
         MessageBox(nullptr, id, L"Device ID", MB_OK);
 
         CoTaskMemFree(id);  // free allocated by win
@@ -86,9 +100,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     
 
     std::wstring s = std::to_wstring(count);
-    MessageBox(nullptr, 
-    s.c_str(),
-    L"AUDIO DEVICES", MB_OK);
+    MessageBox(nullptr, s.c_str(),L"AUDIO DEVICES", MB_OK);
     
     pCollection->Release();
     pEnum->Release();
