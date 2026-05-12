@@ -62,8 +62,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     // MessageBox(nullptr, L"hello", L"Test", MB_OK);
     
     CoInitialize(nullptr);
+    
     IMMDeviceEnumerator* pEnum = nullptr;
-    CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnum);
+    auto hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnum);
+    if (FAILED(hr)) return -1;
 
     IMMDeviceCollection* pCollection = nullptr; // &pCollection == **
     pEnum->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &pCollection);
