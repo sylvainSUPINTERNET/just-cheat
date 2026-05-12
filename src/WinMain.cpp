@@ -62,7 +62,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     // MessageBox(nullptr, L"hello", L"Test", MB_OK);
     
     CoInitialize(nullptr);
-    
+
     IMMDeviceEnumerator* pEnum = nullptr;
     auto hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnum);
     if (FAILED(hr)) return -1;
@@ -124,7 +124,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
         100, 100, 600, 400,
         nullptr, nullptr, hInstance, nullptr
     );
-    SetWindowDisplayAffinity(mWindow, 0x00000011); // WDA_EXCLUDEFROMCAPTURE
+    SetWindowDisplayAffinity(mWindow, WDA_EXCLUDEFROMCAPTURE); // WDA_EXCLUDEFROMCAPTURE
     ShowWindow(mWindow, nCmdShow);
     UpdateWindow(mWindow);
 
