@@ -3,4 +3,6 @@ cmake -B build -G "MinGW Makefiles"   # MinGW
 cmake -B build                           # Visual Studio (auto-détecté)
 
 # Compile
+
+cmake --build build --clean-first ;; .\build\Debug\JustCheat.exe
 cmake --build build ;; .\build\Debug\JustCheat.exe

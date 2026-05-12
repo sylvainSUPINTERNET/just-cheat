@@ -26,3 +26,5 @@ target_compile_definitions(JustCheat PRIVATE
     UNICODE
     _UNICODE
 )
+
+target_link_libraries(JustCheat PRIVATE uuid ole32)

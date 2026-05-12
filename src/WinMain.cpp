@@ -1,5 +1,10 @@
 #include <windows.h>
+#include <Mmdeviceapi.h>
 
+#define INITGUID
+#include <guiddef.h>
+#include <mmdeviceapi.h>
+#include <string>
 
 enum class ID : int
 {
@@ -53,6 +58,41 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 {
     // MessageBox(nullptr, L"hello", L"Test", MB_OK);
+    
+    CoInitialize(nullptr);
+    IMMDeviceEnumerator* pEnum = nullptr;
+    CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_ALL, __uuidof(IMMDeviceEnumerator), (void**)&pEnum);
+
+    IMMDeviceCollection* pCollection = nullptr; // &pCollection == **
+    pEnum->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE, &pCollection);
+
+    UINT count = 0;
+    pCollection->GetCount(&count);
+
+    for (auto i = 0; i < count; i++)
+    {
+        IMMDevice* d = nullptr;
+        pCollection->Item(i, &d);
+
+        LPWSTR id = nullptr;
+        d->GetId(&id);
+
+        MessageBox(nullptr, id, L"Device ID", MB_OK);
+
+        CoTaskMemFree(id);  // libérer la string allouée par Windows
+        d->Release();
+    }
+
+    
+
+    std::wstring s = std::to_wstring(count);
+    MessageBox(nullptr, 
+    s.c_str(),
+    L"AUDIO DEVICES", MB_OK);
+    
+    pCollection->Release();
+    pEnum->Release();
+    CoUninitialize();
 
     WNDCLASSEX wc    = {};
     wc.cbSize        = sizeof(wc);
@@ -66,7 +106,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
     mWindow = CreateWindowEx(
         0,
         L"TestWindow",
-        L"XXXX",
+        L"XXXX0123",
         WS_OVERLAPPEDWINDOW,
         100, 100, 600, 400,
         nullptr, nullptr, hInstance, nullptr
