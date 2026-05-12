@@ -79,7 +79,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow)
 
         MessageBox(nullptr, id, L"Device ID", MB_OK);
 
-        CoTaskMemFree(id);  // libérer la string allouée par Windows
+        CoTaskMemFree(id);  // free allocated by win
         d->Release();
     }
 
