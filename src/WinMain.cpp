@@ -32,7 +32,7 @@ VOID CALLBACK HttpCb(
     DWORD dwStatusInformationLength
 )
 {
-    ResponseCtx* ctx = (ResponseCtx*)dwContext;
+    ResponseCtx* ctx = reinterpret_cast<ResponseCtx*>(dwContext); //dwContext juste DWORD du ptr passé au debut juste là on recast dans le PTR pour revenir à l'objet initial de base pour continuer à remplir la string / reset le buffer
 
     switch (dwInternetStatus)
     {
